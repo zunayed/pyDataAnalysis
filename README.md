@@ -8,6 +8,4 @@ using ipython notebook to analyze various datasets from nyc
 Install ipython notebook to modify and excute your own code
 
 You can view a static version of my notebook here 
-http://nbviewer.ipython.org/github/zunayed/pyDataAnalysis/blob/master/Analyzing%20311%20call%20data%20in%20NYC.ipynb
-
-
+http://bit.ly/18bglGZ
