@@ -1,0 +1,24 @@
+<style>
+    .prompt{
+        display: None;
+    }
+    .notebook_app{
+        background-color: white;
+    }
+    .warning{
+        color: rgb( 240, 20, 20 )
+    }
+    #notebook-container{
+        webkit-box-shadow: None;
+        box-shadow: None;
+    }
+    .header-bar{
+        display: None;
+    }
+
+    code {
+        color: #49759c !important;
+        background-color: #f3f5f9 !important;
+    }
+
+</style>
