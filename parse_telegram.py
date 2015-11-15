@@ -1,16 +1,20 @@
 import csv
 import json
 
-import pandas as pd
+import pandas   as pd
+import numpy    as np
+import seaborn  as sns
+# from sklearn.svm                        import LinearSVC
+# from sklearn.feature_extraction.text    import CountVectorizer
 
 FILENAME = 'data/messages.json'
 CSV_FILENAME = 'output.csv'
 
 
 def convert_json_file():
-    reader =  csv.reader(open(FILENAME))
-    # header = line.keys()
     data = []
+    reader = csv.reader(open(FILENAME))
+
     for raw_line in reader:
         line = json.loads(raw_line[0])
 
@@ -22,18 +26,24 @@ def convert_json_file():
             ])
 
     df = pd.DataFrame(data)
-    print df.head()
-
     df.to_csv('output.csv', encoding='utf-8')
 
 def csv_load_file():
-    df = pd.read_csv('output.csv')
+    df = pd.read_csv('output.csv', parse_dates=1)
     df.drop('index', 1)
 
     fook = df[df.text.str.contains('fck|fuck')]
     http = df[df.text.str.contains('http|https')]
 
-    # print df.head()
+    print df.head()
+    print df.time.type
+    # times = pd.to_datetime(df.time)
+    # print df['time'].groupby([times.hour]).value_col.sum()
+
+    # sns.heatmap(df['username'])
+    # ax = sns.heatmap(df['username'])
+
+    print df.head()
     print "\n"
     print "Message frequency"
     print "----------------------------"
@@ -43,10 +53,28 @@ def csv_load_file():
     print "----------------------------"
     print http[['username', 'text']].groupby('username').count()
 
+def train_model():
+    train_data = pd.read_csv("data/kaggle_insult/train.csv")
+    test_data = pd.read_csv("data/kaggle_insult/test_with_solutions.csv")
 
-def main():
-    csv_load_file()
+    # Insult column -> Target
+    # Comment column -> contains text
+    y_train = np.array(train_data.Insult)
+    comments_train = np.array(train_data.Comment)
 
+    cv = CountVectorizer()
+    cv.fit(comments_train)
+
+    X_train = cv.transform(comments_train).tocsr()
+
+    svm = LinearSVC()
+    svm.fit(X_train, y_train)
+
+    comments_test = np.array(test_data.Comment)
+    y_test = np.array(test_data.Insult)
+    X_test = cv.transform(comments_test)
+    print svm.score(X_test, y_test)
 
 if __name__ == "__main__":
-    main()
+    csv_load_file()
+    # train_model()
