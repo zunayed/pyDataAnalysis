@@ -17,6 +17,6 @@
   "axes.grid": true,
   "patch.edgecolor": "#eeeeee",
   "axes.titlesize": "x-large",
-  "svg.embed_char_paths": "path",
+  "svg.fonttype": "path",
   "examples.directory": ""
 }
