@@ -7,7 +7,7 @@ import seaborn  as sns
 # from sklearn.svm                        import LinearSVC
 # from sklearn.feature_extraction.text    import CountVectorizer
 
-FILENAME = 'data/messages.json'
+FILENAME = 'messages.json'
 CSV_FILENAME = 'output.csv'
 
 
@@ -26,18 +26,18 @@ def convert_json_file():
             ])
 
     df = pd.DataFrame(data)
+    df.columns = ['time', 'username', 'text']
     df.to_csv('output.csv', encoding='utf-8')
+    print df.describe
 
 def csv_load_file():
     df = pd.read_csv('output.csv', parse_dates=1)
-    df.drop('index', 1)
 
     fook = df[df.text.str.contains('fck|fuck')]
     http = df[df.text.str.contains('http|https')]
 
     print df.head()
-    print df.time.type
-    # times = pd.to_datetime(df.time)
+    times = pd.to_datetime(df.time)
     # print df['time'].groupby([times.hour]).value_col.sum()
 
     # sns.heatmap(df['username'])
@@ -76,5 +76,6 @@ def train_model():
     print svm.score(X_test, y_test)
 
 if __name__ == "__main__":
-    csv_load_file()
+    convert_json_file()
+    # csv_load_file()
     # train_model()
